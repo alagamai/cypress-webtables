@@ -189,6 +189,44 @@ Cypress.Commands.add('getCellDataFromRowColId', (RowNum, colNum) => {
 	// });
 });
 
+Cypress.Commands.add('getRowData_all', tableSelector => {
+	const all_rowData = [];
+	cy.get(tableSelector)
+		.find('tbody tr') // Select all table rows
+		.each(row => {
+			cy.wrap(row)
+				.find('td') // Select all cells within each row
+				.then($el => {
+					const Values = Array.from($el).map(element =>
+						Cypress.$(element).text().trim()
+					);
+					// Values.forEach(val => {
+					// 	cy.log(val);
+					// });
+					let rowVal = Values.join(' ').toString();
+					all_rowData.push(rowVal);
+				});
+		});
+	cy.wrap(all_rowData);
+});
+
+Cypress.Commands.add('getRowData_byRowNum', (tableSelector, rowNum) => {
+	rowNum = rowNum - 1; // row starts from zero index
+	cy.get(tableSelector)
+		.find('tbody tr') // Select all table rows
+		.eq(rowNum)
+		.find('td') // Select all cells within each row
+		.then($el => {
+			const Values = Array.from($el).map(element =>
+				Cypress.$(element).text().trim()
+			);
+			Values.forEach(val => {
+				cy.log(val);
+			});
+			cy.wrap(Values.join(' ').toString());
+		});
+});
+
 Cypress.Commands.add('isColumnSortedbyASC', colNum => {
 	cy.get(`thead tr [tabindex='0']:nth-of-type(${colNum})`).click();
 
@@ -265,4 +303,20 @@ Cypress.Commands.add('searchTable', text => {
 			}
 		});
 	});
+});
+
+Cypress.Commands.add('getTitleNames', tableSelector => {
+	//thead tr [tabindex='0']:nth-of-type(2)
+	//thead tr [tabindex='0']:nth-of-type(5)
+	//thead > tr > th:nth-of-type(1)
+	cy.get(tableSelector)
+		.find(`thead tr [tabindex='0']`) // Find all table rows
+		.then($el => {
+			cy.log($el.text());
+			const Values = Array.from($el).map(element => Cypress.$(element).text());
+			Values.forEach(val => {
+				cy.log(JSON.stringify(val));
+			});
+			cy.wrap(Values);
+		});
 });

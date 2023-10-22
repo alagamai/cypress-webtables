@@ -18,7 +18,7 @@ describe('get web table elements', () => {
 			});
 		});
 	});
-	it.only('print Contents of each row of Web Table', () => {
+	it('print Contents of each row of Web Table', () => {
 		cy.printCells_rowbyrow();
 	});
 	it('find all cells within the selected row', () => {
@@ -98,7 +98,7 @@ describe('get web table elements', () => {
 		});
 	});
 
-	it.only('Get cell data from row and col id', () => {
+	it('Get cell data from row and col id', () => {
 		const rowNum = 2,
 			colNum = 3;
 		cy.getCellDataFromRowColId(rowNum, colNum).then(val => {
@@ -110,7 +110,7 @@ describe('get web table elements', () => {
 		cy.isColumnSortedbyASC(colNum);
 	});
 
-	it.only('search web table using search string', () => {
+	it('search web table using search string', () => {
 		//cy.searchTable('Gavin Joyce');
 		cy.searchTable('Edinburgh');
 	});
